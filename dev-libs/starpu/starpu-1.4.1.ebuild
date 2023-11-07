@@ -1,7 +1,7 @@
 # Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 FORTRAN_NEEDED="fortran"
 FORTRAN_STANDARD=90
@@ -40,11 +40,12 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 	doc? ( app-doc/doxygen virtual/latex-base )
+	elibc_musl? ( sys-libs/libucontext )
 "
 
-"
-starpu-1.4.1-libucontext-musl.patch
-"
+PATCHES=(
+   "${FILESDIR}"/${P}-libucontext-musl.patch
+)
 
 pkg_pretend() {
 	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
@@ -58,7 +59,7 @@ pkg_setup() {
 src_prepare() {
 	default
 
-	sed -i -e '/Libs.private/s/@LDFLAGS@//g' *.pc.in */*.pc.in || die
+	sed -i -e '/Libs.private/s/@LDFLAGS@//g' packages/*.pc.in */packages/*.pc.in || die
 	sed -i -e 's/-O3//g;s/-D_FORTIFY_SOURCE=1//g' configure.ac || die
 	eautoreconf
 
