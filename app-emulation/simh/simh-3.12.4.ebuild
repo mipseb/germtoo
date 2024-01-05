@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~ppc ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos"
 IUSE=""
 
-RDEPEND="net-libs/libpcap"
+RDEPEND="net-libs/libpcap app-arch/unzip"
 DEPEND="${RDEPEND}"
 
 S=${WORKDIR}/simh-${MY_PV}
